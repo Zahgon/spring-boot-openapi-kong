@@ -1,8 +1,9 @@
 package io.jonashackt.weatherbackend.api;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.servers.Server;
+import jakarta.ws.rs.core.Application;
+import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
+import org.eclipse.microprofile.openapi.annotations.info.Info;
+import org.eclipse.microprofile.openapi.annotations.servers.Server;
 
 @OpenAPIDefinition(
         info = @Info(
@@ -11,5 +12,5 @@ import io.swagger.v3.oas.annotations.servers.Server;
         ),
         servers = @Server(url = "http://weatherbackend:8080")
 )
-public class OpenAPIConfig {
+public class OpenAPIConfig extends Application {
 }

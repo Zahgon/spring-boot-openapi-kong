@@ -1,34 +1,18 @@
 package io.jonashackt.weatherbackend.api;
 
-import io.jonashackt.weatherbackend.WeatherBackendApplication;
 import io.jonashackt.weatherbackend.businesslogic.IncredibleLogic;
 import io.jonashackt.weatherbackend.model.*;
-import io.restassured.RestAssured;
+import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 
 import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest(
-        classes = WeatherBackendApplication.class,
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
-)
+@QuarkusTest
 public class WeatherBackendAPITests {
-
-    @LocalServerPort
-    int port;
-
-    @BeforeEach
-    public void init() {
-        RestAssured.baseURI = "http://localhost";
-        RestAssured.port = port;
-    }
 
 	@Test
     public void should_create_weather() {

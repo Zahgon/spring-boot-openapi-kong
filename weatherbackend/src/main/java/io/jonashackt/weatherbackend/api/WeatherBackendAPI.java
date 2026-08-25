@@ -4,20 +4,28 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jonashackt.weatherbackend.businesslogic.IncredibleLogic;
 import io.jonashackt.weatherbackend.model.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/weather")
+@Path("/weather")
 public class WeatherBackendAPI {
 
     private static final Logger LOG = LoggerFactory.getLogger(WeatherBackendAPI.class);
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @PostMapping(value = "/general/outlook", produces = "application/json")
-    public @ResponseBody GeneralOutlook generateGeneralOutlook(@RequestBody Weather weather) throws JsonProcessingException {
+    @POST
+    @Path("/general/outlook")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public GeneralOutlook generateGeneralOutlook(Weather weather) throws JsonProcessingException {
         LOG.info("Request for /general/outlook with POST");
 
         // Some incredible Businesslogic...
@@ -31,8 +39,10 @@ public class WeatherBackendAPI {
         return outlook;
     }
 
-    @GetMapping(value = "/general/outlook", produces = "application/json")
-    public @ResponseBody String infoAboutGeneralOutlook() throws JsonProcessingException {
+    @GET
+    @Path("/general/outlook")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String infoAboutGeneralOutlook() throws JsonProcessingException {
         LOG.info("Request for /general/outlook with GET");
 
         Weather weather = new Weather();
@@ -46,8 +56,10 @@ public class WeatherBackendAPI {
         return "Try a POST also against this URL! Just send some body with it like: '" + weatherJson + "'";
     }
 
-    @GetMapping(value = "/{name}", produces = "text/plain")
-    public String whatsTheSenseInThat(@PathVariable("name") String name) {
+    @GET
+    @Path("/{name}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String whatsTheSenseInThat(@PathParam("name") String name) {
         LOG.info("Request for /{" + name + "} with GET");
         return "Hello " + name + "! This is a RESTful HttpService written in Spring. Try to use some other HTTP verbs (don´t say 'methods' :P ) :)";
     }

@@ -1,13 +1,14 @@
-FROM openjdk:11.0.16-jdk-slim
+FROM openjdk:17-jdk-slim
 
 MAINTAINER Jonas Hecht
 
-VOLUME /tmp
-
-# Add Spring Boot app.jar to Container
-ADD "target/*.jar" app.jar
+# Add Quarkus fast-jar layout to Container
+COPY target/quarkus-app/lib/ /deployments/lib/
+COPY target/quarkus-app/*.jar /deployments/
+COPY target/quarkus-app/app/ /deployments/app/
+COPY target/quarkus-app/quarkus/ /deployments/quarkus/
 
 ENV JAVA_OPTS=""
 
-# Fire up our Spring Boot app by default
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
+# Fire up our Quarkus app by default
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /deployments/quarkus-run.jar" ]
